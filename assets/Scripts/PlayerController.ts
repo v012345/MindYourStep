@@ -15,6 +15,9 @@ export class PlayerController extends Component {
     private _targetPos: Vec3 = new Vec3();
     private _isMoving = false;
 
+    @property({ type: Animation })
+    public BodyAnim: Animation | null = null;
+
     start() {
         // Your initialization goes here.
         input.on(Input.EventType.MOUSE_UP, this.onMouseUp, this);
@@ -40,6 +43,14 @@ export class PlayerController extends Component {
         Vec3.add(this._targetPos, this._curPos, new Vec3(this._jumpStep, 0, 0));
 
         this._isMoving = true;
+
+        if (this.BodyAnim) {
+            if (step === 1) {
+                this.BodyAnim.play('oneStep');
+            } else if (step === 2) {
+                this.BodyAnim.play('twoStep');
+            }
+        }
     }
 
     onOnceJumpEnd() {
